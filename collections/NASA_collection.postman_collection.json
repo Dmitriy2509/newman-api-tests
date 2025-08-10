@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "feeafef7-d25f-4abc-af05-671ba2d8b4e8",
+		"name": "NASA_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3971854"
+	},
+	"item": [
+		{
+			"name": "exampleQuery",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code is OK\", ()=>{",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"verify content type header\", ()=>{",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).eql(\"application/json\");",
+							"});",
+							"",
+							"pm.test(\"verify copyright\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    pm.expect(jsonBody.copyright).to.not.null;",
+							"});",
+							"",
+							"pm.test(\"verify title\",()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    pm.expect(jsonBody.title).to.not.null;",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "countParameter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code is ok\", ()=>{",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"verify status code is 200\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify header 'Access-Control-Expose-Headers'\", ()=>{",
+							"    pm.expect(pm.response.headers.get(\"Access-Control-Expose-Headers\")).to.equal(\"X-RateLimit-Limit, X-RateLimit-Remaining\");",
+							"});",
+							"",
+							"pm.test(\"verify media type\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    const object = jsonBody[0];",
+							"    pm.expect(object.media_type).to.not.null;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&count=3",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "count",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "thumbs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code is 200\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify header 'Strict-Transport-Security'\", ()=>{",
+							"    pm.expect(pm.response.headers.get(\"Strict-Transport-Security\")).to.equal(\"max-age=31536000; includeSubDomains; preload\");",
+							"});",
+							"",
+							"pm.test(\"verify copyright\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"",
+							"    pm.expect(jsonBody.copyright).to.not.null;",
+							"});",
+							"",
+							"pm.test(\"verify date\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"",
+							"    pm.expect(jsonBody.date).to.not.null;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&thumbs=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "thumbs",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code is 200\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify header 'Connection'\", ()=>{",
+							"    pm.expect(pm.response.headers.get(\"Connection\")).to.equal(\"keep-alive\");",
+							"});",
+							"",
+							"pm.test(\"verify body'service_version'\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    pm.expect(jsonBody.service_version).to.equal(\"v1\");",
+							"});",
+							"",
+							"pm.test(\"verify 'hdurl'\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    pm.expect(jsonBody.hdurl).to.equal(\"https://apod.nasa.gov/apod/image/2409/NGC247-Hag-Ben2048.JPG\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&date=2024-9-5",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "date",
+							"value": "2024-9-5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "startDate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code is OK\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify header 'Transfer-Encoding'\", ()=>{",
+							"    pm.expect(pm.response.headers.get(\"Transfer-Encoding\")).to.equal(\"chunked\");",
+							"});",
+							"",
+							"pm.test(\"verify response constains object 'Galaxy Wars: M81 versus M82'\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    const object = jsonBody.find(object => object.title === \"Galaxy Wars: M81 versus M82\");",
+							"",
+							"    pm.expect(object.title).to.equal(\"Galaxy Wars: M81 versus M82\")",
+							"});",
+							"",
+							"pm.test(\"verify response constains copyright of object 'Galaxy Wars: M81 versus M82'\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    const object = jsonBody.find(object => object.title === \"Galaxy Wars: M81 versus M82\");",
+							"",
+							"    pm.expect(object.copyright).to.equal(\"\\nCollaborative Astrophotography Team (CAT)\\n\");",
+							"});",
+							"",
+							"pm.test(\"verify response constains date of object 'Galaxy Wars: M81 versus M82'\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"    const object = jsonBody.find(object => object.title === \"Galaxy Wars: M81 versus M82\");",
+							"",
+							"    pm.expect(object.date).to.equal(\"2025-05-07\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&start_date=2025-5-5",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "start_date",
+							"value": "2025-5-5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "startDateAndEndDate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify status code is 200\", ()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify header 'Strict-Transport-Security' is exist\", ()=>{",
+							"    pm.response.to.have.header(\"Strict-Transport-Security\");",
+							"});",
+							"",
+							"pm.test(\"verify response contains object\", ()=>{",
+							"    const jsonBody = pm.response.json();",
+							"",
+							"    const object = jsonBody.find(object => object.title === \"IXPE Explores a Black Hole Jet\");",
+							"",
+							"    pm.expect(object.title).equal(\"IXPE Explores a Black Hole Jet\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&start_date=2025-5-5&end_date=2025-7-5",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "start_date",
+							"value": "2025-5-5"
+						},
+						{
+							"key": "end_date",
+							"value": "2025-7-5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "startDateAndEndDateAndThumbs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"verify status code is OK\", () => {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"verify header 'X-Frame-Options' is present\", () => {",
+							"    pm.response.to.have.header(\"X-Frame-Options\");",
+							"});",
+							"",
+							"pm.test(\"verify response contains object\", () => {",
+							"    const jsonBody = pm.response.json();",
+							"",
+							"    const object = jsonBody.find(object => object.title === \"Planet Lines Across Water\");",
+							"    pm.expect(object.title).to.eql(\"Planet Lines Across Water\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.nasa.gov/planetary/apod?api_key={{token}}&start_date=2025-5-5&end_date=2025-6-5&thumbs=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"planetary",
+						"apod"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{token}}"
+						},
+						{
+							"key": "start_date",
+							"value": "2025-5-5"
+						},
+						{
+							"key": "end_date",
+							"value": "2025-6-5"
+						},
+						{
+							"key": "thumbs",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "JzaeM8dMrWZzUG3ZdpLQa2epUNbO13aSFosayUY4",
+			"type": "string"
+		}
+	]
+}
